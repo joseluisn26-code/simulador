@@ -5,28 +5,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora para valor de iva de las compras</title>
+    <title>Calculadora para valor de iva de las compras y ofertas por semana</title>
 </head>
 
 <body onload="loadProducts()">
-    <section>
+    <div class="grid-container">
 
-        <h1>Simulador para calculo de iva compras para Jose luis store</h1>
+        <!-- header del site -->
+        <header>
+            <h1>Jose Luis Shop</h1>
+        </header>
 
-        <label>Enter item value</label>
-        <input type="text" id="valueProduct" value="" required>
-        <select id="productos">
-        </select>
-        <select id="selectCountry">
-            <option value="arg">Argentina</option>
-            <option value="col" selected>Colombia</option>
-            <option value="mex">Mexico</option>
-        </select>
-        <button onclick="captureInput()">Calculate value</button>
+        <!-- contenido de la pagina -->
+        <main>
+        
+            <h2>Simulador para calculo de iva compras para Jose luis store y ofertas por semana</h2>
+            <!-- solicitud de datos para calcular iva de productos -->
+            <section>
+                <label>Enter item value</label>
+                <input type="text" id="valueProduct" value="" required>
+                <select id="productos">
+                </select>
+                <select id="selectCountry">
+                    <option value="arg">Argentina</option>
+                    <option value="col" selected>Colombia</option>
+                    <option value="mex">Mexico</option>
+                </select>
+                <button onclick="captureInput()">Calculate value</button>
+            </section>
+            
+            <!-- seccion para visualización de calculo -->
+            <section id="responseCalculate">
+            </section>
+            
+            <!-- busqueda por categoria -->
+            <section id="search">
+                <h3> Busqueda por categoria</h3>
+            </section>
 
-    </section>
-    <section id="responseCalculate">
-    </section>
+            <!-- ofertas de la semana -->
+            <section id="searchOffer">
+                <h3> Ofertas de la semana</h3>
+            </section>
+        </main>
+        <!-- footer del site -->
+        <footer>
+            <h5>Copyright © Jose Luis Novoa Nieto</h5>
+        </footer>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
