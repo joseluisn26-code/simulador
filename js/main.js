@@ -74,7 +74,7 @@ productos.forEach((producto) => {
 const search = productos.filter(productos => productos.categoria == categoryProducts);
 let response = '';
 search.forEach(search => {
-    response += `Resultado de la busqueda por categoria:  ${search.categoria} , nombre del producto: ${search.nombreProducto}, marca del producto: ${search.marcaProducto}, descripcion del producto: " + ${search.descripcion}, valor: $${search.valor}'\n'`;
+    response += `Resultado de la busqueda por categoria:  ${search.categoria} , nombre del producto: ${search.nombreProducto}, marca del producto: ${search.marcaProducto}, descripcion del producto: ${search.descripcion}, valor: $${search.valor}\n`;
 });
 alert(response);
 
