@@ -1,183 +1,173 @@
-/**
- * Capturamos datos del usuario
- */
-const nombreUsuario = prompt('Ingrese su nombre de usuario')
-const categoryProducts = prompt('Ingrese categoria las opciones a ingresar son "electrodomestico" o "Accesorio para vehiculo" ')
+// Declaraciones
 
-/**
- * Declaramos objeto productos para ofertas de la semana
- */
-const productos = [
-    {
-        nombreProducto: 'televisor',
-        marcaProducto: 'Lg',
-        categoria: 'electrodomestico',
-        descripcion: 'Tv led plano de 55 pulgadas, su diseño sofisticado que se adapta a cualquier espacio',
-        valor: 1000000
-    },
-    {
-        nombreProducto: 'llanta carro',
-        marcaProducto: 'Goodyear',
-        categoria: 'Accesorio para vehiculo',
-        descripcion: 'Llanta 140/70-17, con el mejor aggare',
-        valor: 200000
-    },
-    {
-        nombreProducto: 'televisor',
-        marcaProducto: 'Kalley',
-        categoria: 'electrodomestico',
-        descripcion: 'Tv led de 42 pulgadas, rtodos tus contenidos favoritos con imagen 4K-UHD',
-        valor: 900000
-    },
-    {
-        nombreProducto: 'televisor',
-        marcaProducto: 'Sony',
-        categoria: 'electrodomestico',
-        descripcion: 'Smart tv de 80 pulgadas, Diseño sin bordes, menos marco, escenas más amplias y sonido nítido',
-        valor: 1500000
-    }
-]
-/**
- * Ordenamos el objeto Producto por marcaProducto descendentemente
-*/
-productos.sort((a, b) => {
-    if (a.marcaProducto > b.marcaProducto) {
-        return -1;
-    }
-    if (a.marcaProducto < b.marcaProducto) {
-        return 1;
-    }
-    return 0;
-})
+// Array de todos los Productos
+const productos = [muletas, mueble, kit, tvRetro, estetoscopio, board]
 
-/**
-  * Muestra los resultados de los calculos
-  *  @return {number} muestra los productos del objeto
-  */
-const dataSearch = document.getElementById('searchOffer')
-productos.forEach((producto) => {
-    const cardSearch = document.createElement('div')
-    cardSearch.innerHTML = `
-        <h4> ${producto.nombreProducto} </h4>
-        <h3> Marca: ${producto.marcaProducto} </h3>
-        <p> Tipo de categoria: ${producto.categoria}</p>
-        <p> Descripcion: ${producto.descripcion}</p>
-        <span> $${producto.valor} </span>
-    `
-    dataSearch.append(cardSearch)
-})
+document.addEventListener('DOMContentLoaded', () => {
 
-/**
-  * Muestra los resultados de la busqueda por categoria
-  *  @return {string} muestra los productos del objeto que coinciden con el parametro de busqueda ingresado por el usuario
-  */
-const search = productos.filter(productos => productos.categoria == categoryProducts);
-let response = '';
-search.forEach(search => {
-    response += `Resultado de la busqueda por categoria:  ${search.categoria} , nombre del producto: ${search.nombreProducto}, marca del producto: ${search.marcaProducto}, descripcion del producto: ${search.descripcion}, valor: $${search.valor}\n`;
+    // Query de Elementos
+
+    let carrito = [];
+    const divisa = '$';
+    const DOMitems = document.querySelector('#items');
+    const DOMcarrito = document.querySelector('#carrito');
+    const DOMtotal = document.querySelector('#total');
+    const botonVaciar = document.querySelector('#btnVaciar');
+    const miLocalStorage = window.localStorage;
+
+    // Funciones
+
+    /**
+    * Ordenamos el objeto Producto por categoria alfabeticamente
+    */
+    productos.sort((a, b) => {
+        if (a.categoria < b.categoria) {
+            return -1;
+        }
+        if (a.categoria > b.categoria) {
+            return 1;
+        }
+        return 0;
+    })
+
+    /**
+    * Pinta los productos dinamicamente a partir del array productos
+    */
+    function renderizarProductos() {
+        productos.forEach((info) => {
+            const miNodo = document.createElement('div');
+            miNodo.classList.add('card', 'col-sm-4');
+            const cardProduct = document.createElement('div');
+            cardProduct.classList.add('card-body');
+            const title = document.createElement('h4');
+            title.classList.add('card-title');
+            title.textContent = info.categoria;
+            const marca = document.createElement('h5');
+            marca.classList.add('card-title');
+            marca.textContent = info.marca;
+            const  modelo = document.createElement('h6');
+            modelo.classList.add('card-title');
+            modelo.textContent = info.modelo;
+            const imagen = document.createElement('img');
+            imagen.classList.add('img-fluid');
+            imagen.setAttribute('src', info.imagen);
+            const descripcion = document.createElement('p');
+            descripcion.classList.add('card-title');
+            descripcion.textContent = info.descripcion;
+            const precio = document.createElement('p');
+            precio.classList.add('card-text');
+            precio.textContent = `${divisa}${info.precio}`;
+            const boton = document.createElement('button');
+            boton.classList.add('btn', 'btn-primary');
+            boton.textContent = 'Agregar al carrito';
+            boton.setAttribute('marcador', info.id);
+            boton.addEventListener('click', addProductsToCart);
+
+            // Insertamos los nodos a la card de productos
+            cardProduct.appendChild(imagen);
+            cardProduct.appendChild(title);
+            cardProduct.appendChild(marca);
+            cardProduct.appendChild(modelo);
+            cardProduct.appendChild(precio);
+            cardProduct.appendChild(descripcion);
+            cardProduct.appendChild(boton);
+            miNodo.appendChild(cardProduct);
+            DOMitems.appendChild(miNodo);
+        });
+    }
+
+    /**
+    * Evento para añadir un producto al carrito de la compra
+    */
+    function addProductsToCart(e) {
+        carrito.push(e.target.getAttribute('marcador'))
+        renderizarCarrito();
+        guardarCarritoEnLocalStorage();
+    }
+
+    /**
+    * Mostramos  agregados por el usuario al carrito
+    */
+    function renderizarCarrito() {
+        DOMcarrito.textContent = '';
+        const carritoSinDuplicados = [...new Set(carrito)];
+        carritoSinDuplicados.forEach((item) => {
+            const miItem = productos.filter((itemBaseDatos) => {
+                return itemBaseDatos.id === parseInt(item);
+            });
+            const numeroUnidadesItem = carrito.reduce((total, itemId) => {
+                return itemId === item ? total += 1 : total;
+            }, 0);
+            const miNodo = document.createElement('li');
+            miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
+            miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].categoria} - ${divisa} ${miItem[0].precio}`;
+            const miBoton = document.createElement('button');
+            miBoton.classList.add('btn', 'btn-danger', 'mx-5');
+            miBoton.textContent = 'Eliminar del carrito';
+            miBoton.style.marginLeft = '1rem';
+            miBoton.dataset.item = item;
+            miBoton.addEventListener('click', removeItemsFromCart);
+            miNodo.appendChild(miBoton);
+            DOMcarrito.appendChild(miNodo);
+        });
+        DOMtotal.textContent = calculateTotal();
+    }
+
+    /**
+    * Quitamos elementos del carrito
+    */
+    function removeItemsFromCart(evento) {
+        const id = evento.target.dataset.item;
+        carrito = carrito.filter((carritoId) => {
+            return carritoId !== id;
+        });
+        renderizarCarrito();
+        guardarCarritoEnLocalStorage();
+    }
+
+    /**
+     * Calculamos el valor total
+     */
+    const calculateTotal = () => {
+        return carrito.reduce((total, item) => {
+            const miItem = productos.filter((itemBaseDatos) => {
+                return itemBaseDatos.id === parseInt(item);
+            });
+            return total + miItem[0].precio;
+        }, 0);
+    }
+
+    /**
+    * Vaciamos el carrito
+    */
+    function vaciarCarrito() {
+        carrito = [];
+        renderizarCarrito();
+        localStorage.clear();
+
+    }
+
+    /**
+    * Guardamos carrito en el storage
+    */
+    const guardarCarritoEnLocalStorage = () => {
+        miLocalStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    /**
+    * Cargamos lo guardado en el carrito previamente en el storage
+    */
+    const cargarCarritoDeLocalStorage = () => {
+        if (miLocalStorage.getItem('carrito') !== null) {
+            carrito = JSON.parse(miLocalStorage.getItem('carrito'));
+        }
+    }
+
+    // EventListeners
+    botonVaciar.addEventListener('click', vaciarCarrito);
+
+    // Ejecuciones
+    cargarCarritoDeLocalStorage();
+    renderizarProductos();
+    renderizarCarrito();
 });
-alert(response);
-
-/**
-  * Devuelve iva dependiendo el pais
-  * @return {number} iva del pais.
-  */
-const captureSelect = () => {
-    let countrySelect = document.getElementById('selectCountry').value;
-    let iva = 0
-    switch (countrySelect) {
-        case 'arg':
-            return iva = 1.21;
-        case 'col':
-           return iva = 1.19;
-        case 'mex':
-            return iva = 1.16;
-        default:
-            return iva;
-    }
-}
-
-/**
-  * Capturamos datos del input
-  * @return {number} iva del pais.
-  */
-const captureInput = () => {
-    let valor = parseInt(document.getElementById('valueProduct').value);
-    let ivaCountry = captureSelect()
-    let result = calculatePrice(valor, ivaCountry);
-    let valueIva = calculateIva(valor, result);
-    showResult(result, valueIva);
-}
-
-/**
-  * Mostramos productos en el select desde un array
-  */
-function loadProducts() {
-    let products = ["Impresora", "Monitor", "Mouse usb", "Mouse inalambrico", "Pc de escritorio", "Pc gamer", "Portatil", "Teclado"]
-    let select = document.getElementById('productos')
-    for (let i=0; i < products.length; i++) {
-        let option = document.createElement("option")
-        option.text = products[i]
-        select.add(option)
-    }
-}
-
-/**
-  * Calculamos el precio del producto
-  *  
-  * @param {number} valor El valor del producto.
-  * @param {number} iva El valor del iva del pais.
-  * @return {number} calculo del precio
-  */
-const calculatePrice = (valor, iva) => {
-    let resultado = valor / iva;
-    alert("El valor del producto sin el iva es de $" + resultado)
-    return resultado
-}
-
-/**
-  * Calculamos el iva del producto
-  *  
-  * @param {number} valor El valor del producto.
-  * @param {number} iva El valor del iva del pais.
-  * @return {number} calculo del iva del producto
-  */
-const calculateIva = (valor, iva) => {
-    let resultado = valor - iva;
-    alert("El valor del iva del producto es de $" + resultado)
-    return resultado
-}
-
-/**
-  * Calculamos el precio de varios productos
-  *  
-  * @param {number} valor El valor del producto.
-  * @param {number} cantProductos cantidad de productos.
-  * @return {number} valor de todos los productos
-  */
-const calculatePriceProduct = (valor, cantProductos) => {
-    let resultado = valor * cantProductos
-    return resultado
-}
-
-/**
-  * Muestra los resultados de los calculos
-  *  
-  * @param {number} result El resultado del calculo
-  * @param {number} valueIva El valor del iva
-  * @param {number} cantProductos cantidad de productos
-  *  @return {string} muestra los resultados del calculo en el index
-  */
-const showResult = (result, valueIva) => {
-    let response = document.getElementById('responseCalculate')
-    let data = document.createElement("data")
-    
-    data = "<p>Hola "+ nombreUsuario + " el valor del producto ingresado antes del iva es de $" + result.toFixed(2) +  ", el valor del iva del articulo ingresado es de $" + valueIva.toFixed(2)+"</p>"
-    response.innerHTML = data
-}
-
- 
-
-
-
-
