@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const DOMtotal = document.querySelector('#total');
     const botonVaciar = document.querySelector('#btnVaciar');
     const miLocalStorage = window.localStorage;
+    const botonPay = document.querySelector('#btnPay')
 
     // Funciones
 
@@ -163,8 +164,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
     // EventListeners
     botonVaciar.addEventListener('click', vaciarCarrito);
+    botonPay.addEventListener('click', () => {
+        Swal.fire({
+            title: 'Gracias por su compra',
+            text: 'Revise los detalles de su compra en su correo',
+            icon: 'success',
+            html: `<h1>Venta realizada</h1>
+            <p>Lo esperamos de nuevo pronto</p>
+            `,
+        });
+    })
 
     // Ejecuciones
     cargarCarritoDeLocalStorage();
