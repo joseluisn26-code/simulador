@@ -13,6 +13,7 @@ const DOMtotal = document.querySelector('#total');
 const botonVaciar = document.querySelector('#btnVaciar');
 const miLocalStorage = window.localStorage;
 const botonPay = document.getElementById('btnPay')
+let test = [];
 
 // Funciones
 /**
@@ -49,7 +50,6 @@ function renderizarProductos() {
         const imagen = document.createElement('img');
         imagen.classList.add('img-fluid');
         imagen.setAttribute('src', info.imagen);
-        console.log(imagen)
         const descripcion = document.createElement('p');
         descripcion.classList.add('card-title');
         descripcion.textContent = info.descripcion;
@@ -61,6 +61,7 @@ function renderizarProductos() {
         boton.textContent = 'Agregar al carrito';
         boton.setAttribute('marcador', info.id);
         boton.addEventListener('click', addProductsToCart);
+        console.log('marcador')
         // Insertamos los nodos a la card de productos
         cardProduct.appendChild(imagen);
         cardProduct.appendChild(title);
@@ -98,10 +99,10 @@ function renderizarCarrito() {
         const numeroUnidadesItem = carrito.reduce((total, itemId) => {
             return itemId === item ? total += 1 : total;
         }, 0);
+        // console.log(miItem);
         const imagen = document.createElement('img');
         imagen.classList.add('img-thumbnail', 'col-sm-2');
         imagen.setAttribute('src', miItem[0].imagen);
-        console.log(imagen);
         const nodoCarrito = document.createElement('li');
         nodoCarrito.classList.add('list-group-item', 'text-right', 'col-m-12');
         nodoCarrito.textContent = `${numeroUnidadesItem} x ${miItem[0].categoria} - ${divisa} ${miItem[0].precio.toLocaleString()} `;
@@ -185,12 +186,14 @@ function showBtnPay() {
 function ocultarBtnPay() {
     botonPay.disabled = true;
 }
+
 /**
 * Deshabilitamos boton vaciar carrito
 */
 function ocultarBtnCarrito() {
     btnVaciar.disabled = true;
 }
+
 /**
 * habilitamos boton vaciar carrito
 */
@@ -198,15 +201,53 @@ function showBtnCarrito() {
     btnVaciar.disabled = false;
 }
 
+/**
+ * busqueda productos por id
+ */
+const findProductById = (proId) => {
+    const result = productos.filter(productos => productos.id === proId);
+    console.log(result)
+}
+
+/**
+ * busqueda productos por categoria
+ */
+const findProductByCategory = (proCat) => {
+    const result = productos.filter(productos => productos.categoria === proCat);
+    console.log(result)
+}
+
+/**
+ * busqueda productos por marca
+ */
+const findProductByMarca = (proMarc) => {
+    const result = productos.filter(productos => productos.marca === proMarc);
+    console.log(result)
+}
+
+/**
+ * busqueda productos por menor  precio
+ */
+const findProductByPrice = (proPrice) => {
+    const result = productos.filter(productos => productos.marca === proMarc);
+    console.log(result)
+}
+
 
 // EventListeners
 botonVaciar.addEventListener('click', vaciarCarrito);
 botonPay.addEventListener('click', () => {
+    datos = JSON.parse(miLocalStorage.getItem('carrito'));
+    console.log(datos);
     Swal.fire({
         title: 'Gracias por su compra',
         text: 'Revise los detalles de su compra en su correo',
         icon: 'success',
         html: `<h1>Venta realizada</h1>
+               <span>${total}.val()</span>
+               <p>${carrito}</p>
+               <p>${datos}</p>
+               <p>Total a pagar: $ <span id="total" style color= "red"></span></p>
             <p>Lo esperamos de nuevo pronto</p>
             `,
     });
@@ -218,3 +259,6 @@ botonPay.addEventListener('click', () => {
 cargarCarritoDeLocalStorage();
 renderizarProductos();
 renderizarCarrito();
+findProductById(2)
+findProductByCategory('Muletas')
+findProductByMarca('Generico')
