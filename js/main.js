@@ -49,6 +49,7 @@ function renderizarProductos() {
         const imagen = document.createElement('img');
         imagen.classList.add('img-fluid');
         imagen.setAttribute('src', info.imagen);
+        console.log(imagen)
         const descripcion = document.createElement('p');
         descripcion.classList.add('card-title');
         descripcion.textContent = info.descripcion;
@@ -60,7 +61,6 @@ function renderizarProductos() {
         boton.textContent = 'Agregar al carrito';
         boton.setAttribute('marcador', info.id);
         boton.addEventListener('click', addProductsToCart);
-        // 
         // Insertamos los nodos a la card de productos
         cardProduct.appendChild(imagen);
         cardProduct.appendChild(title);
@@ -98,19 +98,26 @@ function renderizarCarrito() {
         const numeroUnidadesItem = carrito.reduce((total, itemId) => {
             return itemId === item ? total += 1 : total;
         }, 0);
-        const miNodo = document.createElement('li');
-        miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
-        miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].categoria} - ${divisa} ${miItem[0].precio}`;
-        const miBoton = document.createElement('button');
-        miBoton.classList.add('btn', 'btn-danger', 'mx-5');
-        miBoton.textContent = 'Eliminar del carrito';
-        miBoton.style.marginLeft = '1rem';
-        miBoton.dataset.item = item;
-        miBoton.addEventListener('click', removeItemsFromCart);
-        miNodo.appendChild(miBoton);
-        DOMcarrito.appendChild(miNodo);
+        const imagen = document.createElement('img');
+        imagen.classList.add('img-thumbnail', 'col-sm-2');
+        imagen.setAttribute('src', miItem[0].imagen);
+        console.log(imagen);
+        const nodoCarrito = document.createElement('li');
+        nodoCarrito.classList.add('list-group-item', 'text-right', 'col-m-12');
+        nodoCarrito.textContent = `${numeroUnidadesItem} x ${miItem[0].categoria} - ${divisa} ${miItem[0].precio.toLocaleString()} `;
+        nodoCarrito.style.marginLeft = '2rem';
+        nodoCarrito.appendChild(imagen);
+        const btnQuitar = document.createElement('button');
+        btnQuitar.classList.add('btn', 'btn-danger', 'col-m-4');
+        btnQuitar.textContent = 'Eliminar';
+        btnQuitar.style.marginLeft = '1rem';
+        btnQuitar.dataset.item = item;
+        btnQuitar.addEventListener('click', removeItemsFromCart);
+        nodoCarrito.appendChild(btnQuitar);
+        DOMcarrito.appendChild(nodoCarrito);
     });
-    DOMtotal.textContent = calculateTotal();
+    DOMtotal.textContent = calculateTotal().toLocaleString();
+    showBtnCarrito();
 }
 
 /**
@@ -146,6 +153,7 @@ function vaciarCarrito() {
     renderizarCarrito();
     localStorage.clear();
     ocultarBtnPay();
+    ocultarBtnCarrito();
 }
 
 /**
@@ -165,17 +173,29 @@ const cargarCarritoDeLocalStorage = () => {
 }
 
 /**
-* Mostramos boton pagar
+* Habilitamos boton pagar
 */
 function showBtnPay() {
     botonPay.disabled = false;
 }
 
 /**
-* Ocultamos boton pagar
+*Deshabilitamos boton pagar
 */
 function ocultarBtnPay() {
     botonPay.disabled = true;
+}
+/**
+* Deshabilitamos boton vaciar carrito
+*/
+function ocultarBtnCarrito() {
+    btnVaciar.disabled = true;
+}
+/**
+* habilitamos boton vaciar carrito
+*/
+function showBtnCarrito() {
+    btnVaciar.disabled = false;
 }
 
 
@@ -190,6 +210,8 @@ botonPay.addEventListener('click', () => {
             <p>Lo esperamos de nuevo pronto</p>
             `,
     });
+    vaciarCarrito();
+    ocultarBtnCarrito();
 })
 
 // Ejecuciones
