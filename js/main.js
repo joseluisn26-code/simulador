@@ -1,7 +1,8 @@
 // Declaraciones
 
 // Array de todos los Productos
-const productos = [muletas, mueble, kit, tvRetro, estetoscopio, board]
+// const productos = [muletas, mueble, kit, tvRetro, estetoscopio, board]
+let productos = []
 
 // Query de Elementos
 
@@ -255,9 +256,18 @@ function hideNodeProducts() {
 
 /**
  * Cargamos al select la marca de los productos
+ * const traerProducts = async () => {
+    const resp = await fetch('../json/data.json')
+    const data = await resp.json()
+    productos = data
+    renderizarProductos();
+}
  */
-function loadProducts() {
+const loadProducts = async () => {
     let products = [];
+    const resp = await fetch('../json/data.json')
+    const data = await resp.json()
+    products = data
     products = productos.map(function (elem) {
         let returnObjeto = elem.marca;
         return returnObjeto.toString();
@@ -305,12 +315,11 @@ const findProductByMarca = (proMarc) => {
     // return result
 }
 
-/**
- * busqueda productos por menor  precio
- */
-const findProductByPrice = (proPrice) => {
-    const result = productos.filter(productos => productos.marca === proMarc);
-    console.log(result)
+const traerProducts = async () => {
+    const resp = await fetch('../json/data.json')
+    const data = await resp.json()
+    productos = data
+    renderizarProductos();
 }
 
 // EventListeners
@@ -324,39 +333,13 @@ removedbtn.addEventListener('click', function () {
     itemsSearch.parentNode.removeChild(itemsSearch);
 });
 
-// DOMitems.addEventListener('click', function () {
-//     DOMitems.parentNode.removeChild(DOMitems);
-// })
-
 botonVaciar.addEventListener('click', vaciarCarrito);
 botonPay.addEventListener('click', () => {
-    datos = parseInt(miLocalStorage.getItem('carrito'));
-    // datos = JSON.parse(miLocalStorage.getItem('carrito'));
-    datos = parseInt(carrito);
-    productoComprado = "";
-    // let marcaCompra =
-    console.log('id de carrito', datos.id);
-    productoComprado = findProductById(datos);
-    console.log(productoComprado);
-    const jsonProductComprado = JSON.stringify(productoComprado);
-    localStorage.setItem("myJson", jsonProductComprado);
-
-    let text = localStorage.getItem("myJson");
-    let obj = JSON.parse(text);
-    console.log('objeto', obj);
-    const { categoria, marca, modelo, precio, imagen } = obj;
-    // console.log('Hola producto comprado info', JSON.parse( productoComprado));
-    console.log('categoria test', categoria);
     Swal.fire({
         title: 'Gracias por su compra',
         text: 'Revise los detalles de su compra en su correo',
         icon: 'success',
         html: `<h1>Venta realizada</h1>
-               <p>${carrito}</p>
-               <p>${marca}</p>
-               <p>${categoria}</p>
-               <p>${modelo}</p>
-               <p>Total a pagar: $ <span id="total" style color= "red"></span></p>
             <p>Lo esperamos de nuevo pronto</p>
             `,
     });
@@ -365,6 +348,7 @@ botonPay.addEventListener('click', () => {
 })
 
 // Ejecuciones
+traerProducts();
 loadProducts();
 cargarCarritoDeLocalStorage();
 renderizarProductos();

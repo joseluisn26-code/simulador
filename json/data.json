@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "categoria": "Muletas",
+        "marca": "Importadas",
+        "modelo": "Axilares",
+        "precio": 100000,
+        "imagen": "./img/producto-1.jpg",
+        "descripcion": "Somos la mejor empresa de ortopédicos, líderes en el mercado nacional"
+    },
+    {
+        "id": 2,
+        "categoria": "Mueble computador con silla",
+        "marca": "Generico",
+        "modelo": "A-4895X",
+        "precio": 850000,
+        "imagen": "./img/producto-2.jpg",
+        "descripcion": "Somos lideres, todos nuestros productos son hechos con materiales ayudan al medio ambiente"
+    },
+    {
+        "id": 3,
+        "categoria": "Kit optometria",
+        "marca": "104 lentes",
+        "modelo": "A803006-62",
+        "precio": 700000,
+        "imagen": "./img/producto-3.jpg",
+        "descripcion": "Somos la mejor empresa de implementos de optometria, contamos con aliados estrategicos en distintos paises"
+    },
+    {
+        "id": 4,
+        "categoria": "Tv retro",
+        "marca": "Generico",
+        "modelo": "A-4895X",
+        "precio": 850000,
+        "imagen": "./img/producto-4.jpg",
+        "descripcion": "Somos lideres, todos nuestros productos son hechos con materiales ayudan al medio ambiente"
+    },
+    {
+        "id": 5,
+        "categoria": "Estetoscopio",
+        "marca": "Generico",
+        "modelo": "Ax-249",
+        "precio": 200000,
+        "imagen": "./img/producto-5.jpg",
+        "descripcion": "Somos lideres contamos con los mejores productos, contactanos"
+    },
+    {
+        "id": 6,
+        "categoria": "Board",
+        "marca": "Msi",
+        "modelo": "Ms-41254",
+        "precio": 550000,
+        "imagen": "./img/producto-6.jpg",
+        "descripcion": "Contamos con los mejores productos a los mejores precios, todo lo tenemos a un solo clic"
+    }
+]
+
