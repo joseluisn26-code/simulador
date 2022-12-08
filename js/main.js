@@ -79,7 +79,7 @@ function renderizarProductos() {
     });
 }
 function renderizarBusquedaProductos(result) {
-    // hideNodeProducts();
+
     result.forEach((info ) => {
         const miNodo = document.createElement('div');
         miNodo.classList.add('card', 'col-sm-4');
@@ -145,7 +145,6 @@ function renderizarCarrito() {
         const numeroUnidadesItem = carrito.reduce((total, itemId) => {
             return itemId === item ? total += 1 : total;
         }, 0);
-        // console.log(miItem);
         const imagen = document.createElement('img');
         imagen.classList.add('img-thumbnail', 'col-sm-2');
         imagen.setAttribute('src', miItem[0].imagen);
@@ -259,14 +258,13 @@ function hideNodeProducts() {
  */
 const loadProducts = async () => {
     let products = [];
-    const resp = await fetch('../../json/data.json')
+    const resp = await fetch('json/data.json')
     const data = await resp.json()
     products = data
     products = productos.map(function (elem) {
         let returnObjeto = elem.marca;
         return returnObjeto.toString();
     });
-    // console.log(products);
 
     for (let i = 0; i < products.length; i++) {
         let option = document.createElement("option")
@@ -287,8 +285,7 @@ const changeSelect = () => {
  */
 const findProductById = (proId) => {
     const result = productos.filter(productos => productos.id === proId);
-    console.log(result);
-    return result
+    return result;
 }
 
 /**
@@ -296,7 +293,7 @@ const findProductById = (proId) => {
  */
 const findProductByCategory = (proCat) => {
     const result = productos.filter(productos => productos.categoria === proCat);
-    console.log(result)
+    return result;
 }
 
 /**
@@ -304,13 +301,11 @@ const findProductByCategory = (proCat) => {
  */
 const findProductByMarca = (proMarc) => {
     const result = productos.filter(productos => productos.marca === proMarc);
-    console.log('Entre', result)
     renderizarBusquedaProductos(result);
-    // return result
 }
 
 const traerProducts = async () => {
-    const resp = await fetch('../../json/data.json')
+    const resp = await fetch('json/data.json')
     const data = await resp.json()
     productos = data
     renderizarProductos();
@@ -347,6 +342,3 @@ loadProducts();
 cargarCarritoDeLocalStorage();
 renderizarProductos();
 renderizarCarrito();
-// findProductById(2)
-// findProductByCategory('Muletas')
-// findProductByMarca('Generico')
