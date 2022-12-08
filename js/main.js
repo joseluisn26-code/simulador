@@ -259,7 +259,7 @@ function hideNodeProducts() {
  */
 const loadProducts = async () => {
     let products = [];
-    const resp = await fetch('/json/data.json')
+    const resp = await fetch('../../data.json')
     const data = await resp.json()
     products = data
     products = productos.map(function (elem) {
@@ -310,7 +310,7 @@ const findProductByMarca = (proMarc) => {
 }
 
 const traerProducts = async () => {
-    const resp = await fetch('/json/data.json')
+    const resp = await fetch('../../data.json')
     const data = await resp.json()
     productos = data
     renderizarProductos();
