@@ -256,16 +256,10 @@ function hideNodeProducts() {
 
 /**
  * Cargamos al select la marca de los productos
- * const traerProducts = async () => {
-    const resp = await fetch('../json/data.json')
-    const data = await resp.json()
-    productos = data
-    renderizarProductos();
-}
  */
 const loadProducts = async () => {
     let products = [];
-    const resp = await fetch('../json/data.json')
+    const resp = await fetch('../../json/data.json')
     const data = await resp.json()
     products = data
     products = productos.map(function (elem) {
@@ -316,7 +310,7 @@ const findProductByMarca = (proMarc) => {
 }
 
 const traerProducts = async () => {
-    const resp = await fetch('../json/data.json')
+    const resp = await fetch('../../json/data.json')
     const data = await resp.json()
     productos = data
     renderizarProductos();
