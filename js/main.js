@@ -265,10 +265,13 @@ const loadProducts = async () => {
         let returnObjeto = elem.marca;
         return returnObjeto.toString();
     });
+    const dataArr = new Set(products);
 
-    for (let i = 0; i < products.length; i++) {
+  let result = [...dataArr];
+
+    for (let i = 0; i < result.length; i++) {
         let option = document.createElement("option")
-        option.text = products[i]
+        option.text = result[i]
         selected.add(option)
     }
 }
